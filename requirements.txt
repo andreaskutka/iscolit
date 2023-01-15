@@ -1,0 +1,6 @@
+pyyaml
+streamlit
+psycopg2-binary
+pandas
+streamlit-authenticator
+deta
