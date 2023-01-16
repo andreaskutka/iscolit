@@ -57,7 +57,17 @@ if authentication_status:
 # ---- SIDEBAR ----
     authenticator.logout('Logout', 'sidebar')
     st.sidebar.title(f'Hi there, {name}!')
-    st.sidebar.header('Configuration for calculations')
+    st.sidebar.header('Configurations')
+
+    remove_users = ['andreas.kutka@rowsquared.com', 'peter.brueckmann@rowsquared.com', 'gabriele.tani@rowsquared.com', 'admin']
+    all_users = data['username'].unique()
+    actual_users = [x for x in all_users if x not in remove_users]
+    selected_users = st.sidebar.multiselect(
+        "Select the users:",
+        options= all_users,
+        default = actual_users
+    )
+    data = data.query('username == @selected_users')
 
     cutoff = st.sidebar.number_input(
         'Ignore days with n < x sentences processed',
@@ -76,10 +86,20 @@ if authentication_status:
         min_value=1,
         max_value=int(days_worked)
     )
-
+    radio = st.sidebar.radio(
+        "Select data source for total sentences",
+        ('Assigned data', 'Custom number')
+    )
+    if radio == 'Assigned data':
+        total_tot = data.shape[0]
+    else:
+        total_tot = st.sidebar.number_input(
+            'Write custom total number of sentences',
+            value=242802,
+        )
     # ---- PREP VARIABLES ----
     proc_tot = processed['status'].count()
-    total_tot = data.shape[0]
+
 
     p3d = proc_grp_day.size().where(lambda x: x > 10).dropna().loc[: date.today() - timedelta(days=1)].iloc[-1*past_days:]
     if p3d.shape[0] > 0:
