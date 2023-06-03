@@ -55,8 +55,8 @@ with st.spinner("Wait for it, we're getting the latest data..."):
     data = pull_data()
 
 # ---- SIDEBAR ----
-authenticator.logout('Logout', 'sidebar')
-st.sidebar.title(f'Hi there, {name}!')
+#authenticator.logout('Logout', 'sidebar')
+#st.sidebar.title(f'Hi there, {name}!')
 st.sidebar.header('Configurations')
 
 remove_users = ['andreas.kutka@rowsquared.com', 'peter.brueckmann@rowsquared.com', 'gabriele.tani@rowsquared.com', 'admin']
